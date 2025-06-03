@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://bmav6vop8woso"]
+
+[ext_resource type="Script" path="res://scripts/enemy_scripts/enemy.gd" id="1_26hrv"]
+[ext_resource type="Texture2D" uid="uid://b3gjfvjadudua" path="res://assets/Militia_Sprite.png" id="1_wjwqb"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="3_n8bys"]
+[ext_resource type="Script" path="res://scripts/enemy_scripts/enemy_states/enemy_idle.gd" id="4_t6hkf"]
+[ext_resource type="Script" path="res://scripts/enemy_scripts/enemy_states/enemy_chasing.gd" id="5_i3tpb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_786g2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_wjwqb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iq8ly"]
+radius = 11.0
+height = 46.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_21qrx"]
+radius = 145.455
+
+[node name="Enemy" type="CharacterBody2D"]
+scale = Vector2(1.1, 1.1)
+script = ExtResource("1_26hrv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -24)
+sprite_frames = SubResource("SpriteFrames_786g2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, -23)
+shape = SubResource("CapsuleShape2D_iq8ly")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -20)
+shape = SubResource("CircleShape2D_21qrx")
+debug_color = Color(0.759295, 0.247459, 0.930254, 0.42)
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_n8bys")
+initial_state = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("4_t6hkf")
+DEBUG_MODE = true
+
+[node name="ChasingState" type="Node" parent="StateMachine"]
+script = ExtResource("5_i3tpb")
+DEBUG_MODE = true
+
+[connection signal="body_entered" from="Area2D" to="StateMachine/IdleState" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="StateMachine/ChasingState" method="_on_area_2d_body_exited"]
