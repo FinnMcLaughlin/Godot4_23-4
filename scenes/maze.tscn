@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctsdak2vs3r3v"]
+
+[ext_resource type="Script" path="res://scenes/maze.gd" id="1_03vid"]
+[ext_resource type="Texture2D" uid="uid://bwu3obclnvhpd" path="res://assets/New Piskel (4).png" id="1_elwuc"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yfexo"]
+texture = ExtResource("1_elwuc")
+texture_region_size = Vector2i(96, 96)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-48, -48, 48, -48, 48, 48, -48, 48)
+1:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_kt25w"]
+tile_size = Vector2i(96, 96)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_yfexo")
+
+[node name="Maze" type="TileMapLayer"]
+show_behind_parent = true
+tile_set = SubResource("TileSet_kt25w")
+script = ExtResource("1_03vid")
+ROWS = 10
+COLS = 10

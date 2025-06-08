@@ -58,6 +58,8 @@ func physics_update(delta):
 func _update_player_position():
 	UPDATE_PP = false
 	
+	_log("Updating Player Position")
+	
 	player_pos = player.global_position
 	
 	# # _log(player_pos)
@@ -69,7 +71,6 @@ func _update_player_position():
 func _log(log_item):
 	if DEBUG_MODE:
 		print(log_item)
-
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player:
