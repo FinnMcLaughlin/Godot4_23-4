@@ -1,18 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2u2aubplrffi"]
+[gd_scene load_steps=5 format=3 uid="uid://c2u2aubplrffi"]
 
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_165ps"]
 [ext_resource type="PackedScene" uid="uid://b4sineye6mqvh" path="res://scenes/player.tscn" id="1_smfr4"]
 [ext_resource type="PackedScene" uid="uid://ctsdak2vs3r3v" path="res://scenes/maze.tscn" id="2_jf3g0"]
+[ext_resource type="PackedScene" uid="uid://bmav6vop8woso" path="res://scenes/enemy.tscn" id="4_52rtx"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_165ps")
 
 [node name="Player" parent="." instance=ExtResource("1_smfr4")]
+position = Vector2(1290, 706)
 SPEED = 400.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(-50, -8)
-zoom = Vector2(0.15, 0.15)
+zoom = Vector2(1.25, 1.25)
 
 [node name="Maze" parent="." instance=ExtResource("2_jf3g0")]
 ROWS = 12
 COLS = 12
 offset = 2
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.0338533, 0.0338533, 0.0338533, 1)
+
+[node name="Enemy" parent="." instance=ExtResource("4_52rtx")]
+position = Vector2(2604, 1368)
+SPEED = 250.0
+
+[node name="Enemy2" parent="." instance=ExtResource("4_52rtx")]
+position = Vector2(2101, 434)
+SPEED = 250.0
+
+[node name="Enemy3" parent="." instance=ExtResource("4_52rtx")]
+position = Vector2(687, 1880)
+SPEED = 250.0
+
+[node name="Enemy4" parent="." instance=ExtResource("4_52rtx")]
+position = Vector2(-13.0001, 856)
+SPEED = 250.0
+
+[node name="Enemy5" parent="." instance=ExtResource("4_52rtx")]
+position = Vector2(782, 56.9999)
+SPEED = 250.0

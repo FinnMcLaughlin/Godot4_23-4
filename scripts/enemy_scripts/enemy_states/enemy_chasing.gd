@@ -28,6 +28,9 @@ func enter(params : Dictionary = {}):
 	_log(player.position)
 	_log(player.global_position)
 	
+	enemy.tp = player.get_global_position()
+	enemy.Chase.emit()
+	
 	pass
 
 func exit():
@@ -37,21 +40,8 @@ func update(delta):
 	pass
 
 func physics_update(delta):
-	
 	if UPDATE_PP:
 		_update_player_position()
-		
-	enemy.velocity = enemy.global_position.direction_to(Vector2(player_pos.x, player_pos.y)) * enemy.SPEED
-	
-	# _log(enemy.velocity)
-	
-	if enemy.velocity.x < 0:
-		animated_sprite_2d.flip_h = true
-		
-	elif enemy.velocity.x > 0:
-		animated_sprite_2d.flip_h = false
-		
-	enemy.move_and_slide()
 	
 	pass
 
@@ -60,7 +50,7 @@ func _update_player_position():
 	
 	_log("Updating Player Position")
 	
-	player_pos = player.global_position
+	enemy.tp = player.global_position
 	
 	# # _log(player_pos)
 	
@@ -75,5 +65,9 @@ func _log(log_item):
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body is Player:
 		await get_tree().create_timer(0.5).timeout
-		Transitioned.emit(self, "IdleState")
-	pass # # Replace with function body.
+		_idle()
+	pass # # Replace with function body.	
+
+func _idle():
+	enemy.Chase.emit()
+	Transitioned.emit(self, "IdleState")
