@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6f3odhq6fclk"]
+
+[ext_resource type="Texture2D" uid="uid://b0ru0oks5sy7m" path="res://assets/2d_lights_and_shadows_neutral_point_light.webp" id="1_phps1"]
+
+[node name="LSource" type="Node2D"]
+position = Vector2(0, 999)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0.934441, 0.0995635, 7.70092e-07, 1)
+energy = 0.75
+texture = ExtResource("1_phps1")
+texture_scale = 0.75
+
+[node name="PointLight2D2" type="PointLight2D" parent="."]
+color = Color(0.933333, 0.0980392, 0, 0.505882)
+energy = 3.0
+texture = ExtResource("1_phps1")
+texture_scale = 2.75
