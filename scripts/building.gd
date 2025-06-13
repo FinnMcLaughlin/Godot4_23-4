@@ -19,13 +19,21 @@ var finished_looting : bool
 
 var building_data : Dictionary = {}
 
+signal Looting
+signal LootingStop
+
 func _ready() -> void:
 	label.hide()
 	has_loot = _loot_chance()
 	
+	if has_loot == false:
+		finished_looting = true
+	else:
+		finished_looting = false
+	
 	building_data = {
 		"type": building_type,
-		"loot": has_loot,
+		"loot": has_loot, # Bool replaced with loot object array
 		"size": _get_size_value(building_size),
 		"progress": 0,
 		"being_looted": being_looted,
@@ -33,31 +41,18 @@ func _ready() -> void:
 	}
 	
 	if building_data["loot"] == true:
-		animated_sprite_2d.play("lootable")
-		
-		for light in lights.get_children():
-			light.set_enabled(true)
+		Looting.connect(_currently_being_looted)
+		LootingStop.connect(_reset_text)
+		_light_management()
 
 func _process(delta: float) -> void:
-	if building_data["finished_looting"] == false and area_2d.get_overlapping_bodies().size() > 0:
-		if building_data["loot"] == true:
-			label.show()
-				
-			if Input.is_action_pressed("interact"):
-				_currently_being_looted(delta)
-				
-			if building_data["progress"] >= 100:
-				print("Finished!!")
-				building_data["loot"] = false
-				building_data["finished_looting"] = true
-				
-				for light in lights.get_children():
-					light.set_enabled(false)
-				_has_loot()
-	else:
-		label.hide()
-
-	pass
+	if building_data["finished_looting"] == false:
+		if building_data["progress"] >= 100:
+			
+			print("Finished!!")
+			
+			building_data["finished_looting"] = true
+			_light_management()
 
 func _loot_chance():
 	var loot_v = randi_range(0, 100)
@@ -67,9 +62,17 @@ func _loot_chance():
 	else:
 		return false
 
-func _has_loot():
-	if not building_data["loot"]:
+func _light_management():
+	if building_data["finished_looting"] == true:
 		animated_sprite_2d.play("default")
+		
+		for light in lights.get_children():
+				light.set_enabled(false)
+	else:
+		animated_sprite_2d.play("lootable")
+		
+		for light in lights.get_children():
+				light.set_enabled(true)
 
 # Returns speed in which the player can loot
 # Reimplement with ENUM and renamed variables
@@ -91,3 +94,17 @@ func _currently_being_looted(delta):
 	building_data["progress"] += building_data["size"] * delta
 	
 	print("Progress: " + str(building_data["progress"]))
+
+func _reset_text():
+	label.text = "E"
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body is Player and building_data["finished_looting"] == false:
+		label.show()
+		_reset_text()
+		body.updateSearchObject.emit(self)
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body is Player:
+		label.hide()
+		body.removeSearchObject.emit()
