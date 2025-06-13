@@ -1,18 +1,59 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2u2aubplrffi"]
+[gd_scene load_steps=5 format=3 uid="uid://c2u2aubplrffi"]
 
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_165ps"]
 [ext_resource type="PackedScene" uid="uid://b4sineye6mqvh" path="res://scenes/player.tscn" id="1_smfr4"]
 [ext_resource type="PackedScene" uid="uid://ctsdak2vs3r3v" path="res://scenes/maze.tscn" id="2_jf3g0"]
+[ext_resource type="PackedScene" uid="uid://sa5o0nm7ebhw" path="res://scenes/building.tscn" id="2_kgdo5"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_165ps")
+
+[node name="Building" parent="." instance=ExtResource("2_kgdo5")]
+position = Vector2(550, 372)
+scale = Vector2(3.25, 3.25)
+building_size = 2
+
+[node name="Building2" parent="." instance=ExtResource("2_kgdo5")]
+position = Vector2(706, 372)
+scale = Vector2(3.25, 3.25)
+building_size = 2
+
+[node name="Building3" parent="." instance=ExtResource("2_kgdo5")]
+position = Vector2(862, 372)
+scale = Vector2(3.25, 3.25)
+building_size = 2
+
+[node name="Building4" parent="." instance=ExtResource("2_kgdo5")]
+position = Vector2(1018, 372)
+scale = Vector2(3.25, 3.25)
+building_size = 2
+
+[node name="Building5" parent="." instance=ExtResource("2_kgdo5")]
+position = Vector2(1515, 372)
+scale = Vector2(3.25, 3.25)
+building_size = 2
+
+[node name="Building6" parent="." instance=ExtResource("2_kgdo5")]
+position = Vector2(1701, 312)
+scale = Vector2(4.5, 4.5)
+
+[node name="Building7" parent="." instance=ExtResource("2_kgdo5")]
+position = Vector2(1887, 372)
+scale = Vector2(3.25, 3.25)
+building_size = 2
 
 [node name="Player" parent="." instance=ExtResource("1_smfr4")]
+position = Vector2(1290, 706)
 SPEED = 400.0
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(-50, -8)
-zoom = Vector2(0.15, 0.15)
+zoom = Vector2(1.25, 1.25)
 
 [node name="Maze" parent="." instance=ExtResource("2_jf3g0")]
 ROWS = 12
 COLS = 12
 offset = 2
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.0338533, 0.0338533, 0.0338533, 1)

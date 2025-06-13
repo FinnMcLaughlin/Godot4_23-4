@@ -1,6 +1,7 @@
 extends TileMapLayer
 class_name Maze
 
+@export var Generate : bool
 @export var ROWS : int
 @export var COLS : int
 
@@ -11,13 +12,23 @@ var unvisited : Array = []
 var visited : Array = []
 
 func _ready() -> void:
-	_maze_array_init()
-	_maze_gen()
+	if Generate:
+		clear()
+		_maze_array_init()
+		_maze_gen()
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("gen_maze"):
+		clear()
+		_maze_array_init()
+		_maze_gen()
 	pass
 
 func _maze_array_init():
+	all_tiles = []
+	unvisited = []
+	visited = []
+
 	for row in (ROWS * offset ):
 		all_tiles.append([])
 		for col in (COLS * offset ):
