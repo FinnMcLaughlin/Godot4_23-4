@@ -7,3 +7,4 @@
 script = ExtResource("1_oqt0n")
 name = "battery"
 texture = ExtResource("2_nxmr7")
+type = ""

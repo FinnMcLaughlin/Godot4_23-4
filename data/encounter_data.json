@@ -1,0 +1,61 @@
+{
+	"events" : [
+		{
+			"text": "You got dsyentary, partner",
+			"type": "text",
+			"result": null,
+			"rarity": "common",
+			"area": "all"
+		},
+		{
+			"text": "You blew a tire",
+			"type": "damage",
+			"result": "-1 tire",
+			"rarity": "common",
+			"area": "all"
+		},
+		{
+			"text": "Something is going on on the side of the road. Check it out?",
+			"type": "encounter",
+			"result": 1,
+			"rarity": "less_common",
+			"area": "all"
+		},
+		{
+			"text": "Sleep eating, again",
+			"type": "damage",
+			"result": "-10 food",
+			"rarity": "less_common",
+			"area": "all"
+		},
+		{
+			"text": "A little man robbed the Torino",
+			"type": "text",
+			"result": null,
+			"rarity": "occasional",
+			"area": "all"
+		},
+		{
+			"text": "Marky mark smells something funky",
+			"type": "encounter",
+			"result": 2,
+			"rarity": "occasional",
+			"area": "all"
+		},
+		{
+			"text": "CHUPACABRA",
+			"type": "damage",
+			"result": "-1 you",
+			"rarity": "rare",
+			"area": "all"
+		},
+		{
+			"text": "A berlin apartment has become available",
+			"type": "damage",
+			"result": "-1 you",
+			"rarity": "rare",
+			"area": "all"
+		},
+	],
+	"encounters" : []
+}

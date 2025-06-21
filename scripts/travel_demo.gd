@@ -2,6 +2,9 @@ extends Node2D
 class_name TravelDemo
 
 @onready var torino: ToyotaTorino = $Torino
+@onready var event_manager: EventManager = $EventManager
+@onready var event_node: Control = $EventManager/EventNode
+@onready var dist_to_label: Label = $DistToLabel
 
 @export var CUR_POS : int = 0
 @export var DIST_TO : int
@@ -14,12 +17,18 @@ class_name TravelDemo
 @export var AREA_MOD : float
 @export var COND_MOD : float
 
-var ROUND_COUNT
+var ROUND_COUNT : int
+var encounter_events : Dictionary
+
+var event_occurring : bool = false
+var dis_to_label_text : String
 
 func _ready() -> void:
 	print("Travel Started----")
 	ROUND_COUNT = 0
-	_travel()
+	dis_to_label_text = dist_to_label.text
+	_update_dist_to()
+	# _travel()
 
 func _process(delta: float) -> void:
 	pass
@@ -37,13 +46,14 @@ func _inflict_damage():
 
 func _travel():
 	while CUR_POS < DIST_TO:
+		
 		await get_tree().create_timer(TIMER).timeout
 		
 		ROUND_COUNT += 1
 		print("Travel Round " + str(ROUND_COUNT))
 		
 		CUR_POS += BASE_DIST * SPEED
-		
+		_update_dist_to()
 		print("Current: " + str(CUR_POS) + " | Dest: " + str(DIST_TO))
 		
 		if randi_range(0, 100) < 60:
@@ -53,9 +63,13 @@ func _travel():
 		print("Random Encounter: " + str(RE) + " | Thresh: " + str(R_E_CH * 0.6))
 		
 		if (RE) > (R_E_CH * 0.6):
-			_random_encounter()
+			await _random_event()
+			event_occurring = true
 		
 		print("---------------")
 
-func _random_encounter():
-	print("R-r-r-random Encounter !")
+func _random_event():
+	event_manager.RandomEvent.emit()
+
+func _update_dist_to():
+	dist_to_label.text = dis_to_label_text + " " + str(DIST_TO - CUR_POS)
