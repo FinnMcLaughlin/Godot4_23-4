@@ -17,7 +17,11 @@ func enter(params : Dictionary = {}):
 
 func exit():
 	animated_sprite_2d.show()
-	player.search_object.LootingStop.emit()
+	if player.search_object:
+		player.search_object.LootingStop.emit()
+		
+		if player.search_object.building_data["finished_looting"] == true:
+			player.search_object.label.hide()
 
 func physics_update(delta):
 	_log(player.search_object)

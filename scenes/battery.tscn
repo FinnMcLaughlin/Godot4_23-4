@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgmvuovu2ec7o"]
+
+[ext_resource type="Script" path="res://scripts/item.gd" id="1_3tr37"]
+
+[node name="Battery" type="Sprite2D"]
+position = Vector2(573, 322)
+script = ExtResource("1_3tr37")

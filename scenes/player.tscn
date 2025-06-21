@@ -1,13 +1,14 @@
-[gd_scene load_steps=35 format=3 uid="uid://b4sineye6mqvh"]
+[gd_scene load_steps=36 format=3 uid="uid://b4sineye6mqvh"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_aji2n"]
+[ext_resource type="Script" path="res://scripts/player_scripts/player.gd" id="1_aji2n"]
 [ext_resource type="Texture2D" uid="uid://b2gk5fkf18yu" path="res://assets/Thea_Sprite_2 (2).png" id="3_tvm1c"]
 [ext_resource type="Texture2D" uid="uid://b4rjruunwrqft" path="res://assets/Thea_Sprite_2 (3).png" id="4_d04ss"]
-[ext_resource type="Texture2D" uid="uid://b0ru0oks5sy7m" path="res://assets/2d_lights_and_shadows_neutral_point_light.webp" id="5_ofeda"]
+[ext_resource type="Texture2D" uid="uid://b0ru0oks5sy7m" path="res://assets/light_source.webp" id="5_ofeda"]
+[ext_resource type="Script" path="res://scripts/player_scripts/player_states/player_idle.gd" id="6_hr5rg"]
 [ext_resource type="Script" path="res://scripts/state_machine.gd" id="6_xwtny"]
-[ext_resource type="Script" path="res://scripts/player_idle.gd" id="7_u7hk6"]
-[ext_resource type="Script" path="res://scripts/player_moving.gd" id="8_jpay2"]
-[ext_resource type="Script" path="res://scripts/player_looting.gd" id="9_wsm07"]
+[ext_resource type="Script" path="res://scripts/player_scripts/player_states/player_moving.gd" id="7_y0t21"]
+[ext_resource type="Script" path="res://scripts/player_scripts/player_states/player_looting.gd" id="8_i631w"]
+[ext_resource type="PackedScene" uid="uid://c0o12roqrc0rd" path="res://scenes/inventory_ui.tscn" id="10_u6l7v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fg5yy"]
 atlas = ExtResource("4_d04ss")
@@ -204,12 +205,11 @@ collision_layer = 25
 collision_mask = 9
 motion_mode = 1
 script = ExtResource("1_aji2n")
-DEBUG_MODE = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-3, -3)
 sprite_frames = SubResource("SpriteFrames_adyo7")
-animation = &"player_looting"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -224,11 +224,29 @@ script = ExtResource("6_xwtny")
 initial_state = NodePath("IdleState")
 
 [node name="IdleState" type="Node" parent="StateMachine"]
-script = ExtResource("7_u7hk6")
+script = ExtResource("6_hr5rg")
 
 [node name="MovingState" type="Node" parent="StateMachine"]
-script = ExtResource("8_jpay2")
+script = ExtResource("7_y0t21")
 
 [node name="LootingState" type="Node" parent="StateMachine"]
-script = ExtResource("9_wsm07")
+script = ExtResource("8_i631w")
 DEBUG_MODE = true
+
+[node name="InventoryUI" parent="." instance=ExtResource("10_u6l7v")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+offset_left = -104.0
+offset_top = -186.0
+offset_right = -104.0
+offset_bottom = -186.0
+grow_vertical = 0
+
+[node name="LootLabel" type="Label" parent="."]
+offset_left = -20.0
+offset_top = -52.0
+offset_right = 20.0
+offset_bottom = -29.0
+text = "+1 "

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6f3odhq6fclk"]
 
 [ext_resource type="Script" path="res://scripts/light.gd" id="1_4m4ji"]
-[ext_resource type="Texture2D" uid="uid://b0ru0oks5sy7m" path="res://assets/2d_lights_and_shadows_neutral_point_light.webp" id="1_phps1"]
+[ext_resource type="Texture2D" uid="uid://b0ru0oks5sy7m" path="res://assets/light_source.webp" id="1_phps1"]
 
 [node name="LSource" type="Node2D"]
 position = Vector2(0, 999)
