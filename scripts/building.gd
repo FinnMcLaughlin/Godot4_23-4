@@ -6,26 +6,44 @@ class_name Building
 @onready var lights: Node2D = $Lights
 @onready var label: Label = $Label
 
+const BATTERY = preload("res://scenes/items/battery.tres")
+
 @export var building_type : String
 @export var has_loot : bool
 @export var building_size : int # Enum Small / Medium / Large
 @export var light_frames : Array
 
 @export var LOOT_P : float
+@export var MAX_LOOT : int = 1
+
+var current_animation : String
 
 var loot_progress : float
 var being_looted : bool
 var finished_looting : bool
 
+@export var potential_loot : Array[Item]
+@export var building_loot : Array[Item]
+
 var building_data : Dictionary = {}
 
+signal Looting
+signal LootingStop
+
 func _ready() -> void:
+	current_animation = animated_sprite_2d.animation
+	
 	label.hide()
 	has_loot = _loot_chance()
 	
+	if has_loot == false:
+		finished_looting = true
+	else:
+		finished_looting = false
+	
 	building_data = {
 		"type": building_type,
-		"loot": has_loot,
+		"loot": has_loot, # Bool replaced with loot object array
 		"size": _get_size_value(building_size),
 		"progress": 0,
 		"being_looted": being_looted,
@@ -33,31 +51,23 @@ func _ready() -> void:
 	}
 	
 	if building_data["loot"] == true:
-		animated_sprite_2d.play("lootable")
+		Looting.connect(_currently_being_looted)
+		LootingStop.connect(_reset_text)
+		_light_management()
 		
-		for light in lights.get_children():
-			light.set_enabled(true)
+		_generate_loot()
 
 func _process(delta: float) -> void:
-	if building_data["finished_looting"] == false and area_2d.get_overlapping_bodies().size() > 0:
-		if building_data["loot"] == true:
-			label.show()
-				
-			if Input.is_action_pressed("interact"):
-				_currently_being_looted(delta)
-				
-			if building_data["progress"] >= 100:
-				print("Finished!!")
-				building_data["loot"] = false
-				building_data["finished_looting"] = true
-				
-				for light in lights.get_children():
-					light.set_enabled(false)
-				_has_loot()
-	else:
-		label.hide()
-
-	pass
+	if building_data["finished_looting"] == false:
+		if building_data["progress"] >= 100:
+			
+			print("Finished!!")
+			
+			building_data["finished_looting"] = true
+			
+			area_2d.get_overlapping_bodies()[0].GiveLoot.emit(building_loot.pick_random())
+			
+			_light_management()
 
 func _loot_chance():
 	var loot_v = randi_range(0, 100)
@@ -67,9 +77,18 @@ func _loot_chance():
 	else:
 		return false
 
-func _has_loot():
-	if not building_data["loot"]:
-		animated_sprite_2d.play("default")
+func _light_management():
+	if building_data["finished_looting"] == true:
+		animated_sprite_2d.play(current_animation)
+		
+		for light in lights.get_children():
+				light.set_enabled(false)
+	else:
+		animated_sprite_2d.play(current_animation)
+		# animated_sprite_2d.play("lootable")
+		
+		for light in lights.get_children():
+				light.set_enabled(true)
 
 # Returns speed in which the player can loot
 # Reimplement with ENUM and renamed variables
@@ -84,10 +103,33 @@ func _get_size_value(size : int):
 
 # Implement State Machine
 func _currently_being_looted(delta):
-	print("Looting")
+	# print("Looting")
 	
 	label.text = "..."
 	
 	building_data["progress"] += building_data["size"] * delta
 	
-	print("Progress: " + str(building_data["progress"]))
+	# print("Progress: " + str(building_data["progress"]))
+
+func _reset_text():
+	label.text = "E"
+
+func _generate_loot():
+	if randi_range(0, 10) > 0:
+		building_loot.append(BATTERY)
+	#for loot in range(MAX_LOOT):
+		#if randi_range(0, 10) > 5:
+			#building_loot.append(BATTERY)
+		#else:
+			#building_loot.append(null)
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body is Player and building_data["finished_looting"] == false:
+		label.show()
+		_reset_text()
+		body.updateSearchObject.emit(self)
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body is Player:
+		label.hide()
+		body.removeSearchObject.emit()

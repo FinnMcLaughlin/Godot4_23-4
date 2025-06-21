@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=3 uid="uid://30m1h68l025l"]
+
+[ext_resource type="Script" path="res://scripts/building.gd" id="1_81icb"]
+[ext_resource type="Texture2D" uid="uid://bvpl2bmxld1tm" path="res://assets/Building_Sprite_3.png" id="5_didg7"]
+[ext_resource type="Texture2D" uid="uid://b0ru0oks5sy7m" path="res://assets/light_source.webp" id="6_2e5h1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwjvq"]
+atlas = ExtResource("5_didg7")
+region = Rect2(0, 0, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6t12"]
+atlas = ExtResource("5_didg7")
+region = Rect2(64, 0, 64, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xih45"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwjvq")
+}],
+"loop": true,
+"name": &"idle_3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6t12")
+}],
+"loop": true,
+"name": &"idle_reverse_3",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_isbd3"]
+size = Vector2(33.6667, 37.3333)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xlqai"]
+resource_local_to_scene = true
+font_size = 12
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Building" type="Node2D"]
+position = Vector2(265, 244)
+scale = Vector2(3, 3)
+script = ExtResource("1_81icb")
+building_size = 3
+light_frames = [6, 7, 8, 9, 11, 12]
+LOOT_P = 55.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xih45")
+animation = &"idle_3"
+autoplay = "idle_3"
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0.333335, 40)
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.166672, 1)
+shape = SubResource("RectangleShape2D_isbd3")
+
+[node name="Lights" type="Node2D" parent="."]
+position = Vector2(-0.333333, 0.333336)
+
+[node name="PointLight2D" type="PointLight2D" parent="Lights"]
+position = Vector2(0.666668, -0.333332)
+enabled = false
+energy = 0.4
+texture = ExtResource("6_2e5h1")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Lights"]
+position = Vector2(0.666668, 0.333336)
+enabled = false
+color = Color(1, 1, 0.168627, 1)
+energy = 0.8
+texture = ExtResource("6_2e5h1")
+texture_scale = 0.35
+
+[node name="Label" type="Label" parent="."]
+offset_left = 12.0
+offset_top = 16.3333
+offset_right = 19.0
+offset_bottom = 33.3333
+text = "E"
+label_settings = SubResource("LabelSettings_xlqai")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
