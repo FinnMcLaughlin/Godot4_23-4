@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=4 uid="uid://3q8ehyvnv137"]
 
-[ext_resource type="Texture2D" uid="uid://bwu3obclnvhpd" path="res://assets/New Piskel (4).png" id="1_phtdp"]
+[ext_resource type="Texture2D" uid="uid://bwu3obclnvhpd" path="res://assets/tile_sheet.png" id="1_phtdp"]
 [ext_resource type="Script" path="res://scripts/maze.gd" id="2_ncop0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yfexo"]

@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpsv4jbxw7hb6"]
+
+[ext_resource type="Script" path="res://scripts/torino.gd" id="1_ddugg"]
+
+[node name="Torino" type="Node2D"]
+script = ExtResource("1_ddugg")
+
+[node name="Panel" type="Panel" parent="."]
+offset_top = 1.0
+offset_right = 1153.0
+offset_bottom = 647.0
+
+[node name="Components" type="Control" parent="Panel"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PB_BATTERY" type="ProgressBar" parent="Panel/Components"]
+layout_mode = 0
+offset_left = 426.0
+offset_top = 492.0
+offset_right = 610.0
+offset_bottom = 519.0
+
+[node name="PB_TIRES" type="ProgressBar" parent="Panel/Components"]
+layout_mode = 0
+offset_left = 637.0
+offset_top = 492.0
+offset_right = 821.0
+offset_bottom = 519.0
+
+[node name="PB_RADIATOR" type="ProgressBar" parent="Panel/Components"]
+layout_mode = 0
+offset_left = 854.0
+offset_top = 492.0
+offset_right = 1038.0
+offset_bottom = 519.0
+
+[node name="PB_FUEL" type="ProgressBar" parent="Panel/Components"]
+layout_mode = 0
+offset_left = 521.0
+offset_top = 542.0
+offset_right = 705.0
+offset_bottom = 569.0
+
+[node name="PB_FLOODLIGHTS" type="ProgressBar" parent="Panel/Components"]
+layout_mode = 0
+offset_left = 746.0
+offset_top = 543.0
+offset_right = 930.0
+offset_bottom = 570.0

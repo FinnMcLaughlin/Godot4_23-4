@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=4 uid="uid://b5murlc5fuha8"]
 
-[ext_resource type="Texture2D" uid="uid://bwu3obclnvhpd" path="res://assets/New Piskel (4).png" id="1_2fjpf"]
+[ext_resource type="Texture2D" uid="uid://bwu3obclnvhpd" path="res://assets/tile_sheet.png" id="1_2fjpf"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_w4ri5"]
 vertices = PackedVector2Array(47.375, 48.0859, -49.5, 47.375, -48.7891, -47.375, 48.0859, -47.375)
