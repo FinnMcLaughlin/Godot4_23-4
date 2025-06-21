@@ -30,7 +30,6 @@ func _ready() -> void:
 	HideEvent.connect(_hide_event)
 	#RandomEvent.emit()
 
-
 func _load_encounters():
 	var file = FileAccess.open("res://data/encounter_data.json", FileAccess.READ)
 	if file:
@@ -73,12 +72,13 @@ func _get_random_event():
 	_display_event(chosen_event)
 
 func _display_event(event):
-	_update_text(event.text)
-	event_node.show()
-
-	await get_tree().create_timer(1.75).timeout
+	var e_text = event.text
 	
-	_hide_event()
+	if event.type == "damage":
+		e_text += "\n" + str(event.result)
+		
+	_update_text(e_text)
+	event_node.show()
 
 func _update_text(text):
 	label.text = text

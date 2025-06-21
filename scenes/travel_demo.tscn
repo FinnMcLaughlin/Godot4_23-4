@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://ghoy250tn2c"]
+[gd_scene load_steps=9 format=3 uid="uid://ghoy250tn2c"]
 
-[ext_resource type="Script" path="res://scripts/travel_demo.gd" id="1_3i7iu"]
+[ext_resource type="Script" path="res://scripts/travel_scripts/travel_demo.gd" id="1_3i7iu"]
 [ext_resource type="PackedScene" uid="uid://bpsv4jbxw7hb6" path="res://scenes/torino.tscn" id="1_ryj78"]
-[ext_resource type="Script" path="res://scripts/event_manager.gd" id="3_vrvfb"]
+[ext_resource type="Script" path="res://scripts/travel_scripts/event_manager.gd" id="3_vrvfb"]
+[ext_resource type="Script" path="res://scripts/state_machine.gd" id="4_y6kns"]
+[ext_resource type="Script" path="res://scripts/travel_idle.gd" id="5_6y15q"]
+[ext_resource type="Script" path="res://scripts/travel_moving.gd" id="5_j7nyt"]
+[ext_resource type="Script" path="res://scripts/travel_damage.gd" id="6_nd515"]
+[ext_resource type="Script" path="res://scripts/travel_event.gd" id="7_l4q71"]
 
 [node name="TravelDemo" type="Node2D"]
 script = ExtResource("1_3i7iu")
@@ -61,5 +66,21 @@ offset_top = 288.0
 offset_right = 737.0
 offset_bottom = 311.0
 text = "Distance to: "
+
+[node name="TravelStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("4_y6kns")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="TravelStateMachine"]
+script = ExtResource("5_6y15q")
+
+[node name="Moving" type="Node" parent="TravelStateMachine"]
+script = ExtResource("5_j7nyt")
+
+[node name="Damage" type="Node" parent="TravelStateMachine"]
+script = ExtResource("6_nd515")
+
+[node name="Event" type="Node" parent="TravelStateMachine"]
+script = ExtResource("7_l4q71")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

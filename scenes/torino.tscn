@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bpsv4jbxw7hb6"]
 
-[ext_resource type="Script" path="res://scripts/torino.gd" id="1_ddugg"]
+[ext_resource type="Script" path="res://scripts/travel_scripts/torino.gd" id="1_ddugg"]
 
 [node name="Torino" type="Node2D"]
 script = ExtResource("1_ddugg")

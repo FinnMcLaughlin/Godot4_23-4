@@ -52,7 +52,7 @@
 		{
 			"text": "A berlin apartment has become available",
 			"type": "damage",
-			"result": "-1 you",
+			"result": "+1 you",
 			"rarity": "rare",
 			"area": "all"
 		},
